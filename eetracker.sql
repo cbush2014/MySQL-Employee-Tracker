@@ -22,7 +22,7 @@ CREATE TABLE departments (
 CREATE TABLE roles (
     role_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, 
     title VARCHAR(30),
-    salary DEC(10,2),
+    salary DEC(10,2) DEFAULT 0,
     department_id INTEGER NOT NULL,
     CONSTRAINT departments_department_id_fk FOREIGN KEY (department_id)
     REFERENCES departments (department_id)
@@ -61,4 +61,17 @@ INSERT INTO employees ( first_name, last_name, role_id, manager_id)
         ('Kevin', 'Tupik', 4, 1),
         ('Tom', 'Allen', 7, 3)
 
-        
+-- main select statement for view all employees
+SELECT e.ee_id, e.first_name, e.last_name, r.title, d.name, r.salary, mgr.first_name, mgr.last_name 
+FROM employees AS e
+LEFT JOIN roles as r ON e.role_id = r.role_id 
+LEFT JOIN employees as mgr ON e.manager_id = mgr.ee_id 
+LEFT JOIN departments as d ON d.department_id = r.department_id  
+
+
+SELECT e.ee_id, e.first_name, e.last_name, r.title, d.name, r.salary, mgr.first_name, mgr.last_name 
+    FROM employees AS e
+    LEFT JOIN roles as r ON e.role_id = r.role_id 
+    LEFT JOIN employees as mgr ON e.manager_id = mgr.ee_id 
+    LEFT JOIN departments as d ON d.department_id = r.department_id  
+    ORDER BY d.name ASC
